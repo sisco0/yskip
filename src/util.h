@@ -5,6 +5,7 @@
 #include <iostream>
 #include <cstring> // strlen
 #include <math.h> // fabs, pow, floor, ceil
+#include <sys/types.h>
 #include <vector>
 #include <string>
 
