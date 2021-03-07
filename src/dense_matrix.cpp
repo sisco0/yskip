@@ -1,43 +1,8 @@
-/*******************************************
- * Copyright (C) 2017 Yahoo! JAPAN Research
- *******************************************/
-#pragma once
-#include <stdio.h>
-#include <stdlib.h> //
-#include <numeric>  // accumulate
-#include <iostream>
-#include <unordered_set>
-#include <cassert>
-#include "util.h"
-
+#include "dense_matrix.hpp"
 
 namespace yskip {
 
-
-class DenseMatrix {
- public:
-  DenseMatrix();
-  DenseMatrix(const DenseMatrix& other);
-  DenseMatrix(const int row_num, const int col_num, const real_t val=0.0);
-  ~DenseMatrix();
-  DenseMatrix& operator=(const DenseMatrix& other);
-  const real_t* operator[](const int row) const;
-  real_t* operator[](const int row);
-  void reduce(const std::unordered_set<int>& reserved_rows);
-  int row_num() const;
-  int col_num() const;
-  int load(FILE* is);
-  int save(FILE* os) const;
-  
-  
- private:
-  int     row_num_;
-  int     col_num_;
-  real_t* data_;
-};
-
-
-inline DenseMatrix::DenseMatrix() {
+DenseMatrix::DenseMatrix() {
 
   row_num_ = 1;
   col_num_ = 1;
@@ -46,7 +11,8 @@ inline DenseMatrix::DenseMatrix() {
 }
 
 
-inline DenseMatrix::DenseMatrix(const int row_num, const int col_num, const real_t val) {
+DenseMatrix::DenseMatrix(const int row_num, const int col_num,
+    const real_t val) {
 
 #ifdef __YSKIP_DEBUG__
   assert(0 < row_num);
@@ -60,7 +26,7 @@ inline DenseMatrix::DenseMatrix(const int row_num, const int col_num, const real
 }
 
 
-inline DenseMatrix::DenseMatrix(const DenseMatrix& other) {
+DenseMatrix::DenseMatrix(const DenseMatrix& other) {
 
   row_num_ = other.row_num();
   col_num_ = other.col_num();
@@ -71,13 +37,13 @@ inline DenseMatrix::DenseMatrix(const DenseMatrix& other) {
 }
 
 
-inline DenseMatrix::~DenseMatrix() {
+DenseMatrix::~DenseMatrix() {
 
   free(data_);
 }
 
 
-inline DenseMatrix& DenseMatrix::operator=(const DenseMatrix& other) {
+DenseMatrix& DenseMatrix::operator=(const DenseMatrix& other) {
 
   if (this != &other) {
     row_num_ = other.row_num();
@@ -92,31 +58,31 @@ inline DenseMatrix& DenseMatrix::operator=(const DenseMatrix& other) {
 }
 
 
-inline const real_t* DenseMatrix::operator[](const int row) const {
+const real_t* DenseMatrix::operator[](const int row) const {
   
   return data_ + col_num_*row;
 }
 
 
-inline real_t* DenseMatrix::operator[](const int row) {
+real_t* DenseMatrix::operator[](const int row) {
 
   return data_ + col_num_*row;
 }
 
 
-inline int DenseMatrix::row_num() const {
+int DenseMatrix::row_num() const {
 
   return row_num_;
 }
  
 
-inline int DenseMatrix::col_num() const {
+int DenseMatrix::col_num() const {
   
   return col_num_;
 }
 
 
-inline void DenseMatrix::reduce(const std::unordered_set<int>& reserved_rows) {
+void DenseMatrix::reduce(const std::unordered_set<int>& reserved_rows) {
 
   int j = 0;
   for (int i = 0; i < row_num_; ++i) {
@@ -128,7 +94,7 @@ inline void DenseMatrix::reduce(const std::unordered_set<int>& reserved_rows) {
 }
 
 
-inline int DenseMatrix::load(FILE* is) {
+int DenseMatrix::load(FILE* is) {
 
   if (fread(&row_num_, sizeof(int), 1, is) != 1) {
     return FAILURE;
@@ -138,14 +104,15 @@ inline int DenseMatrix::load(FILE* is) {
   }
   free(data_);
   posix_memalign((void**)&data_, 128, sizeof(real_t)*row_num_*col_num_);
-  if (fread(data_, sizeof(real_t), static_cast<size_t>(row_num_*col_num_), is) != static_cast<size_t>(row_num_*col_num_)) {
+  if (fread(data_, sizeof(real_t), static_cast<size_t>(row_num_*col_num_), is)
+      != static_cast<size_t>(row_num_*col_num_)) {
     return FAILURE;
   }
   return SUCCESS;
 }
  
 
-inline int DenseMatrix::save(FILE* os) const {
+int DenseMatrix::save(FILE* os) const {
 
   if (fwrite(&row_num_, sizeof(int), 1, os) != 1) {
     return FAILURE;
@@ -153,14 +120,15 @@ inline int DenseMatrix::save(FILE* os) const {
   if (fwrite(&col_num_, sizeof(int), 1, os) != 1) {
     return FAILURE;
   }  
-  if (fwrite(data_, sizeof(real_t), static_cast<size_t>(row_num_*col_num_), os) != static_cast<size_t>(row_num_*col_num_)) {
+  if (fwrite(data_, sizeof(real_t), static_cast<size_t>(row_num_*col_num_), os)
+      != static_cast<size_t>(row_num_*col_num_)) {
     return FAILURE;
   }
   return SUCCESS;
 }
 
 
-inline bool operator==(const DenseMatrix& m1, const DenseMatrix& m2) {
+bool operator==(const DenseMatrix& m1, const DenseMatrix& m2) {
 
   if (m1.col_num() != m2.col_num() || m1.row_num() != m2.row_num()) {
     return false;
@@ -174,6 +142,5 @@ inline bool operator==(const DenseMatrix& m1, const DenseMatrix& m2) {
   }
   return true;
 }
-
 
 }

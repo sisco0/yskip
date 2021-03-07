@@ -8,9 +8,9 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include "util.h"
-#include "timer.h"
-#include "skipgram.h"
+#include "util.hpp"
+#include "timer.hpp"
+#include "skipgram.hpp"
 
 
 using namespace yskip;
@@ -177,7 +177,7 @@ int parse_arg(int argc, char* argv[], Skipgram::Option &option, Configuration& c
 }
 
 
-inline void print_progress(const count_t sent_num) {
+void print_progress(const count_t sent_num) {
 
   if (sent_num%100000 == 0) {
     std::fprintf(stderr, "*");
@@ -190,7 +190,7 @@ inline void print_progress(const count_t sent_num) {
 }
 
 
-inline void print_speed(const timeval start_time, const uint64_t progress, const char* unit) {
+void print_speed(const timeval start_time, const uint64_t progress, const char* unit) {
 
   timeval current_time;
   gettimeofday(&current_time, NULL);
@@ -199,7 +199,7 @@ inline void print_speed(const timeval start_time, const uint64_t progress, const
 }
 
 
-inline void asyc_sgd2(Skipgram& skipgram, const int start, const int end, const std::vector<std::vector<std::string>>& mini_batch, Random& random) {
+void asyc_sgd2(Skipgram& skipgram, const int start, const int end, const std::vector<std::vector<std::string>>& mini_batch, Random& random) {
 
   real_t* grad;
   posix_memalign((void**)&grad, 128, sizeof(real_t)*skipgram.vec_size());
@@ -210,7 +210,7 @@ inline void asyc_sgd2(Skipgram& skipgram, const int start, const int end, const 
 }
 
 
-inline void asyc_sgd(Skipgram& skipgram, const Configuration& config, const std::vector<std::vector<std::string>> mini_batch, Random& random) {
+void asyc_sgd(Skipgram& skipgram, const Configuration& config, const std::vector<std::vector<std::string>> mini_batch, Random& random) {
 
   int n = mini_batch.size();
   std::vector<std::thread> threads; 
@@ -223,7 +223,7 @@ inline void asyc_sgd(Skipgram& skipgram, const Configuration& config, const std:
 }
 
 
-inline int train_batch(Skipgram& skipgram, const Configuration& config, Random& random) {
+int train_batch(Skipgram& skipgram, const Configuration& config, Random& random) {
 
   //
   FILE* is = fopen(config.train_file, "r");
@@ -289,7 +289,7 @@ inline int train_batch(Skipgram& skipgram, const Configuration& config, Random& 
 }
 
 
-inline int train_incremental(Skipgram& skipgram, const Configuration& config, Random& random) {
+int train_incremental(Skipgram& skipgram, const Configuration& config, Random& random) {
 
   //
   FILE* is = stdin;
@@ -334,7 +334,7 @@ inline int train_incremental(Skipgram& skipgram, const Configuration& config, Ra
 }
 
 
-inline int train_mini_batch(Skipgram& skipgram, const Configuration& config, Random& random) {
+int train_mini_batch(Skipgram& skipgram, const Configuration& config, Random& random) {
   
   //
   FILE* is = stdin;

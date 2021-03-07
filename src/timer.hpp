@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <sys/time.h>
 #include <iostream>
-#include "util.h"
+#include "util.hpp"
 
 
 namespace yskip {

@@ -11,7 +11,7 @@
 #include <random>
 #include <algorithm>
 #include <stdexcept>
-#include "util.h"
+#include "util.hpp"
 
 
 namespace yskip {

@@ -11,13 +11,13 @@
 #include <vector>
 #include <unordered_set>
 #include <string>
-#include "util.h"
-#include "vec_util.h"
-#include "random.h"
-#include "vocab.h"
-#include "dense_matrix.h"
-#include "fast_sigmoid.h"
-#include "unigram_table.h"
+#include "util.hpp"
+#include "vec_util.hpp"
+#include "random.hpp"
+#include "vocab.hpp"
+#include "dense_matrix.hpp"
+#include "fast_sigmoid.hpp"
+#include "unigram_table.hpp"
 
 
 namespace yskip {

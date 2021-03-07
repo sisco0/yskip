@@ -9,7 +9,7 @@
 #include <vector>
 #include <unordered_set>
 #include <string>
-#include "util.h"
+#include "util.hpp"
 
 
 namespace yskip {

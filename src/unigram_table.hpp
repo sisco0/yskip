@@ -6,8 +6,8 @@
 #include <iostream>
 #include <vector>
 #include <numeric> // accumulate
-#include "util.h"
-#include "random.h"
+#include "util.hpp"
+#include "random.hpp"
 
 namespace yskip {
 
