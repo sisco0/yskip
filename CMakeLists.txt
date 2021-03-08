@@ -6,6 +6,8 @@ project(yskipproject)
 file(GLOB YSKIP_CPP src/*.cpp)
 file(GLOB YSKIP_HPP src/*.h)
 
+# Emscripten branch!
+
 set(CMAKE_CXX_FLAGS "-s EXPORT_ALL=1 -s USE_PTHREADS=1 -s LINKABLE=1 -s EXPORT_ALL=1")
 
 # add_executable(yskip_exec ${YSKIP_CPP} ${YSKIP_HPP})
